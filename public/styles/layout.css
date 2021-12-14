@@ -3,8 +3,11 @@
  * https://css-tricks.com/international-box-sizing-awareness-day/
  * Do not modify these two selectors, please
  */
+
+
 html {
   box-sizing: border-box;
+  font-family: 'Bungee', cursive
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -15,11 +18,37 @@ html {
  */
 
 body {
+  font-family: 'Source Sans Pro', sans-serif;
   color: #545149;
   background-color: #f4f1ec;
   font-size: 24px;
 }
 
+nav { 
+  display: flex;
+  color: #FFFFFF;
+  background-color: #4056A1;
+  height: 120px;
+  justify-content: space-between;
+  padding: 1.5em;
+  flex-direction: row;
+}
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
  */
+
+
+.right-title {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+ .nav-arrow {
+  color:darkred;
+  flex-direction: column;
+}
+.title {
+  color: #FFFFFF;
+  font-family: "Bungee";
+  font-size: 48px;
+}
