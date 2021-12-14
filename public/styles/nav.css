@@ -9,6 +9,8 @@ nav {
   justify-content: space-between;
   padding: 1.5em;
   flex-direction: row;
+  z-index: 999;
+  position: relative;
 }
 
 
