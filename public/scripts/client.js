@@ -4,6 +4,8 @@
 //  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
 //  */
 
+// const text = require("body-parser/lib/types/text");
+
 $(function(){
 
 const createTweetElement = (tweetDB)=> {
@@ -66,15 +68,59 @@ const data = [
     "content": {
       "text": "I always pay my debts"
     },
-    "created_at": 1886930049568
+    "created_at": 59999999999999
   }
 ];
 
 const renderTweets = function(arrayOfTweets) {
   for (const obj of arrayOfTweets) {
-    $('.tweet-container').append(createTweetElement(obj));
+    $('.tweet-container').prepend(createTweetElement(obj));
   }
 };
 
 renderTweets(data);
 });
+
+
+$(document).ready(function() {
+  $('form').submit(function (event){
+    alert("You clicked the button");
+    let tweet = $('#tweet-text').serialize()
+    
+    $.ajax({
+      type: "POST",
+      url: "/tweets",
+      data: tweet,
+      dataTyoe: JSON,
+      encoded: true
+    }).done(function (data) {
+      console.log(data)
+    })
+    event.preventDefault();
+    })
+  })
+
+
+
+
+// $(document).ready(function () {
+//   $("form").submit(function (event) {
+//     var formData = {
+//       name: $("#name").val(),
+//       email: $("#email").val(),
+//       superheroAlias: $("#superheroAlias").val(),
+//     };
+
+//     $.ajax({
+//       type: "POST",
+//       url: "process.php",
+//       data: formData,
+//       dataType: "json",
+//       encode: true,
+//     }).done(function (data) {
+//       console.log(data);
+//     });
+
+//     event.preventDefault();
+//   });
+// });
