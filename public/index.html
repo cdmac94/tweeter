@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/tweet-container.css" type="text/css" />
     
 
     <!-- External JS -->
@@ -33,7 +34,7 @@
       <i class="fas fa-angle-double-down" style="color: rgb(216, 64, 64);"></i>
       </div>
     </nav>
-    <header>
+    <header id= "display-header" >
       <div>
           <img src="/images/profile-hex.png"> 
       </div>
@@ -43,18 +44,35 @@
       </div>
   </header>
     <!-- Page-specific (main) content here -->
-    <main class="container">
+    <main>
       <section class="new-tweet">
         <h2>Compose Tweet</h2>
-        <form method="POST" action="/tweets/">
-          <div><label for="tweet-text">What are you humming about?</label></div>
+        <form method="POST" action="/tweets/" id="newTweetcontainer">
+          <header id ="new-tweet-header"><label for="tweet-text">What are you humming about?</label></header>
           <textarea name="text" id="tweet-text" class="text-box"></textarea>
-          <div>
+          <footer id="new-tweet-footer">
             <button type="submit" class= "tweet-button">Tweet</button>
             <output name="counter" id="counter" for="tweet-text">140</output>
-          </div>
+          </footer>
         </form>
       </section>
+      <article class="tweet-container">
+        <header class="tweet-header">
+         <div class="user">avatar and username</div>
+          <div class="userId">@username</div>
+        </header>
+        <p class="tweet-body">
+          This is where the text will go
+        </p>
+        <footer class="tweet-footer">
+          <div class="time">Time</div>
+          <div class="icon">
+          <i class="fas fa-flag"> </i>
+          <i class="fas fa-redo"> </i>
+          <i class="fas fa-heart"> </i>
+        </div>
+        </footer>
+      </article>
     </main>
   </body>
 </html>
