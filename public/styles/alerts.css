@@ -1,0 +1,13 @@
+.errMessage {
+  display: none;
+  background-color: lightcoral;
+  color: cornsilk;
+  font: 'Bungee', cursive !important;
+  border: solid;
+  border-color: red;
+  border-radius: 15px;
+  font-size: 30px;
+  width: 100%;
+  max-height: fit-content;
+  text-align: center;
+}

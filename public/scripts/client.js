@@ -8,6 +8,12 @@
 
 $(function(){
 
+  const escape = function (str) {
+    let div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  };
+
 const createTweetElement = (tweetDB)=> {
   const newTweet =$(
   `
@@ -20,7 +26,7 @@ const createTweetElement = (tweetDB)=> {
           <div class="userId">${tweetDB.user.handle}</div>
         </header>
         <p class="tweet-body">
-          ${tweetDB.content.text}
+          ${escape(tweetDB.content.text)}
         </p>
         <footer class="tweet-footer">
           <div class="time">${timeago.format(tweetDB.created_at)}</div>
@@ -56,6 +62,26 @@ const loadTweets = function() {
   })
 }
 
+const errMessage = (error) => {
+  if (error === 'too long') {
+    $(".errMessage").hide();
+    $(".errMessage").empty();
+    $(".errMessage").append("<p>The Tweet is too big</p>");
+    $(".errMessage").slideDown("slow");
+    $("#tweet-text").focus();
+  } else if (error === "empty") {
+    $(".errMessage").hide();
+    $(".errMessage").empty();
+    $(".errMessage").append("<p>Your tweet must contain something!</p>");
+    $(".errMessage").slideDown("slow");
+    $("#tweet-text").focus();
+  } else {
+    $(".errMessage").hide();
+    $(".errMessage").empty();
+    $("#tweet-text").focus();
+  }
+};
+
 const addTweetToDb = function() {
 
 $('#newTweetContainer').submit(function (event){
@@ -63,30 +89,30 @@ $('#newTweetContainer').submit(function (event){
   let tweet = $('#tweet-text').val();
 
   if (tweet.length > 140) {
-    return alert("The Tweet is too big!");
-  }
-
-  if (tweet === null || tweet === '') {
-    return alert("the tweet must contain something!")
-  }
+   errMessage("too long")
+  } else if (tweet === null || tweet === '') {
+   errMessage("empty")
+  } else {
+    $.ajax({
+      type: "POST",
+      url: "/tweets",
+      data: $(this).serialize(),
+      dataTyoe: JSON,
+      success: () => {
+  
+      $(this)[0].reset();
+      $('#counter').text('140');
+      loadTweets();
+      
+    },
+    error: (err) => {
+      console.log("error: ", err)
+    }
+    
+  })
 
   
-  $.ajax({
-    type: "POST",
-    url: "/tweets",
-    data: $(this).serialize(),
-    dataTyoe: JSON,
-    success: () => {
-
-    $(this)[0].reset();
-    $('#counter').text('140');
-    loadTweets();
-
-  },
-  error: (err) => {
-    console.log("error: ", err)
   }
-  })
 })
 }
 

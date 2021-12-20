@@ -4,6 +4,7 @@
   align-items: center;
   width: inherit;
   margin-bottom: 2em;
+  padding-top: 1.5em;
 }
 
 h2{
@@ -28,6 +29,7 @@ label{
   flex-direction: column;
   justify-content: space-evenly;
   width: inherit;
+  padding-top: 1.5em;
 }
 
 input, textarea{

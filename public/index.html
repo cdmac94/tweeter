@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css" />
     <link rel="stylesheet" href="/styles/tweet-container.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/alerts.css" type="text/css" />
     
 
     <!-- External JS -->
@@ -47,7 +48,7 @@
     <!-- Page-specific (main) content here -->
     <main>
       <section class="new-tweet">
-        <h2>Compose Tweet</h2>
+        <div class = "errMessage" id = "errSec"></div>
         <form method="POST" action="/tweets/" id="newTweetContainer">
           <header id ="new-tweet-header"><label for="tweet-text">What are you humming about?</label></header>
           <textarea name="text" id="tweet-text" class="text-box"></textarea>
