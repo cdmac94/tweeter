@@ -42,6 +42,20 @@ const renderTweets = function(arrayOfTweets) {
   }
 };
 
+const loadTweets = function() {
+  $.ajax({
+    type: "GET",
+    url: "/tweets",
+    dataTyoe: JSON,
+    success: (tweetposts) => {
+      renderTweets(tweetposts)
+    },
+    error: (err) => {
+      console.log('error:', err);
+    }
+  })
+}
+
 const addTweetToDb = function() {
 
 $('#newTweetContainer').submit(function (event){
@@ -66,6 +80,7 @@ $('#newTweetContainer').submit(function (event){
 
     $(this)[0].reset();
     $('#counter').text('140');
+    loadTweets();
 
   },
   error: (err) => {
@@ -73,23 +88,8 @@ $('#newTweetContainer').submit(function (event){
   }
   })
 })
-loadTweets();
 }
 
-const loadTweets = function() {
-  $.ajax({
-    type: "GET",
-    url: "/tweets",
-    dataTyoe: JSON,
-    success: (tweetposts) => {
-      renderTweets(tweetposts)
-      tweetposts.reset();
-    },
-    error: (err) => {
-      console.log('error:', err);
-    }
-  })
-}
 
 loadTweets();
 addTweetToDb();

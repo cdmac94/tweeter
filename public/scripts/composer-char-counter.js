@@ -10,5 +10,8 @@ text.addEventListener("input", () => {
   if (charLeft.textContent < 0) {
     charLeft.id = "neg-counter";
   }
+  if (charLeft.textContent >= 0) {
+    charLeft.id = "counter"
+  }
 })
 })
