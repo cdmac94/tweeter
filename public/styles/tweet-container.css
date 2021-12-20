@@ -5,9 +5,10 @@
 }
 
 article {
-  width: 100%;
   margin-bottom: 2em;
   border: 3px solid #545149;
+  min-height: fit-content;
+
 }
 article:hover{
 box-shadow: 10px 10px lightgrey;
@@ -36,6 +37,7 @@ box-shadow: 10px 10px lightgrey;
   min-height: 30%;
   width: 90%;
   margin: 0.5em;
+  overflow-wrap: anywhere;
 }
 
 .tweet-footer {

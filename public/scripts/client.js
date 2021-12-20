@@ -35,42 +35,6 @@ const createTweetElement = (tweetDB)=> {
 return newTweet;
 }
 
-// Test / driver code (temporary). Eventually will get this from the server.
-const data = [
-  {
-    "user": {
-      "name": "Newton",
-      "avatars": "https://i.imgur.com/73hZDYK.png"
-      ,
-      "handle": "@SirIsaac"
-    },
-    "content": {
-      "text": "If I have seen further it is by standing on the shoulders of giants"
-    },
-    "created_at": 1461116232227
-  },
-  {
-    "user": {
-      "name": "Descartes",
-      "avatars": "https://i.imgur.com/nlhLi3I.png",
-      "handle": "@rd" },
-    "content": {
-      "text": "Je pense , donc je suis"
-    },
-    "created_at": 1461113959088
-  },
-  {
-    "user": {
-      "name": "Jamie",
-      "avatars": "https://i.imgur.com/73hZDYK.png",
-      "handle": "@SirJamie"
-    },
-    "content": {
-      "text": "I always pay my debts"
-    },
-    "created_at": 59999999999999
-  }
-];
 
 const renderTweets = function(arrayOfTweets) {
   for (const obj of arrayOfTweets) {
@@ -78,49 +42,57 @@ const renderTweets = function(arrayOfTweets) {
   }
 };
 
-renderTweets(data);
+const addTweetToDb = function() {
+
+$('#newTweetContainer').submit(function (event){
+  event.preventDefault();
+  let tweet = $('#tweet-text').val();
+
+  if (tweet.length > 140) {
+    return alert("The Tweet is too big!");
+  }
+
+  if (tweet === null || tweet === '') {
+    return alert("the tweet must contain something!")
+  }
+
+  
+  $.ajax({
+    type: "POST",
+    url: "/tweets",
+    data: $(this).serialize(),
+    dataTyoe: JSON,
+    success: () => {
+
+    $(this)[0].reset();
+    $('#counter').text('140');
+
+  },
+  error: (err) => {
+    console.log("error: ", err)
+  }
+  })
+})
+loadTweets();
+}
+
+const loadTweets = function() {
+  $.ajax({
+    type: "GET",
+    url: "/tweets",
+    dataTyoe: JSON,
+    success: (tweetposts) => {
+      renderTweets(tweetposts)
+      tweetposts.reset();
+    },
+    error: (err) => {
+      console.log('error:', err);
+    }
+  })
+}
+
+loadTweets();
+addTweetToDb();
+
 });
 
-
-$(document).ready(function() {
-  $('form').submit(function (event){
-    alert("You clicked the button");
-    let tweet = $('#tweet-text').serialize()
-    
-    $.ajax({
-      type: "POST",
-      url: "/tweets",
-      data: tweet,
-      dataTyoe: JSON,
-      encoded: true
-    }).done(function (data) {
-      console.log(data)
-    })
-    event.preventDefault();
-    })
-  })
-
-
-
-
-// $(document).ready(function () {
-//   $("form").submit(function (event) {
-//     var formData = {
-//       name: $("#name").val(),
-//       email: $("#email").val(),
-//       superheroAlias: $("#superheroAlias").val(),
-//     };
-
-//     $.ajax({
-//       type: "POST",
-//       url: "process.php",
-//       data: formData,
-//       dataType: "json",
-//       encode: true,
-//     }).done(function (data) {
-//       console.log(data);
-//     });
-
-//     event.preventDefault();
-//   });
-// });
