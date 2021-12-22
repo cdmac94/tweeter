@@ -10,6 +10,7 @@ article {
   min-height: fit-content;
 
 }
+
 article:hover{
 box-shadow: 10px 10px lightgrey;
 }
@@ -68,3 +69,4 @@ box-shadow: 10px 10px lightgrey;
 .redo:hover{
   color:gold;
 }
+

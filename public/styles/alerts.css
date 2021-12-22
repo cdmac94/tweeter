@@ -8,6 +8,10 @@
   border-radius: 15px;
   font-size: 30px;
   width: 100%;
-  max-height: fit-content;
+  max-height: 80px;
   text-align: center;
+}
+
+#errSec{
+  margin-top: 1em;
 }

@@ -4,25 +4,27 @@
 //  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
 //  */
 
+//const { render } = require("timeago.js");
+
 // const text = require("body-parser/lib/types/text");
 
-$(function(){
+$(function() {
 
-  const escape = function (str) {
+  const escape = function(str) {
     let div = document.createElement("div");
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   };
 
-const createTweetElement = (tweetDB)=> {
-  const newTweet =$(
-  `
-  <article>
+  const createTweetElement = (tweetDB)=> {
+    const newTweet = $(
+      `
+      <article>
         <header class="tweet-header">
-        <div>
-        <img src=${tweetDB.user.avatars}/>
-        <span>${tweetDB.user.name}</span>
-      </div>
+          <div>
+          <img src=${tweetDB.user.avatars}/>
+          <span>${tweetDB.user.name}</span>
+          </div>
           <div class="userId">${tweetDB.user.handle}</div>
         </header>
         <p class="tweet-body">
@@ -38,87 +40,100 @@ const createTweetElement = (tweetDB)=> {
         </footer>
       </article>
       `);
-return newTweet;
-}
+    return newTweet;
+  };
 
 
-const renderTweets = function(arrayOfTweets) {
-  for (const obj of arrayOfTweets) {
-    $('.tweet-container').prepend(createTweetElement(obj));
-  }
-};
-
-const loadTweets = function() {
-  $.ajax({
-    type: "GET",
-    url: "/tweets",
-    dataTyoe: JSON,
-    success: (tweetposts) => {
-      renderTweets(tweetposts)
-    },
-    error: (err) => {
-      console.log('error:', err);
+  const renderTweets = function(arrayOfTweets) {
+    for (const obj of arrayOfTweets) {
+      $('.tweet-container').prepend(createTweetElement(obj));
     }
-  })
-}
+  };
 
-const errMessage = (error) => {
-  if (error === 'too long') {
-    $(".errMessage").hide();
-    $(".errMessage").empty();
-    $(".errMessage").append("<p>The Tweet is too big</p>");
-    $(".errMessage").slideDown("slow");
-    $("#tweet-text").focus();
-  } else if (error === "empty") {
-    $(".errMessage").hide();
-    $(".errMessage").empty();
-    $(".errMessage").append("<p>Your tweet must contain something!</p>");
-    $(".errMessage").slideDown("slow");
-    $("#tweet-text").focus();
-  } else {
-    $(".errMessage").hide();
-    $(".errMessage").empty();
-    $("#tweet-text").focus();
-  }
-};
-
-const addTweetToDb = function() {
-
-$('#newTweetContainer').submit(function (event){
-  event.preventDefault();
-  let tweet = $('#tweet-text').val();
-
-  if (tweet.length > 140) {
-   errMessage("too long")
-  } else if (tweet === null || tweet === '') {
-   errMessage("empty")
-  } else {
+  const loadTweets = function() {
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "/tweets",
-      data: $(this).serialize(),
       dataTyoe: JSON,
-      success: () => {
-  
-      $(this)[0].reset();
-      $('#counter').text('140');
-      loadTweets();
-      
-    },
-    error: (err) => {
-      console.log("error: ", err)
+      success: (tweetposts) => {
+        renderTweets(tweetposts);
+      },
+      error: (err) => {
+        console.log('error:', err);
+      }
+    });
+  };
+
+  const loadNewTweet = function() {
+    $.ajax({
+      type: "GET",
+      url: "/tweets",
+      dataTyoe: JSON,
+      success: (tweetposts) => {
+      // grab the last(new) tweet from
+        let newTweet = Object.keys(tweetposts).pop();
+        $('.tweet-container').prepend(createTweetElement(tweetposts[newTweet]));
+      },
+      error: (err) => {
+        console.log('error:', err);
+      }
+    });
+  };
+
+  const errMessage = (error) => {
+    if (error === 'too long') {
+      $(".errMessage").hide();
+      $(".errMessage").empty();
+      $(".errMessage").append("<p>The Tweet is too big</p>");
+      $(".errMessage").slideDown("slow");
+      $("#tweet-text").focus();
+    } else if (error === "empty") {
+      $(".errMessage").hide();
+      $(".errMessage").empty();
+      $(".errMessage").append("<p>Your tweet must contain something!</p>");
+      $(".errMessage").slideDown("slow");
+      $("#tweet-text").focus();
+    } else {
+      $(".errMessage").hide();
+      $(".errMessage").empty();
+      $("#tweet-text").focus();
     }
-    
-  })
+  };
 
+  const addTweetToDb = function() {
+
+    $('#newTweetContainer').submit(function(event) {
+      event.preventDefault();
+      let tweet = $('#tweet-text').val();
+
+      if (tweet.length > 140) {
+        errMessage("too long");
+      } else if (tweet === null || tweet === '') {
+        errMessage("empty");
+      } else {
+        errMessage();
+        $.ajax({
+          type: "POST",
+          url: "/tweets",
+          data: $(this).serialize(),
+          dataTyoe: JSON,
+          success: () => {
   
-  }
-})
-}
+            $(this)[0].reset();
+            $('#counter').text('140');
+            loadNewTweet();
+      
+          },
+          error: (err) => {
+            console.log("error: ", err);
+          }
+        });
+      }
+    });
+  };
 
-
-loadTweets();
-addTweetToDb();
+  loadTweets();
+  addTweetToDb();
 
 });
 

@@ -40,3 +40,16 @@ main {
   margin-right: auto;
   flex-direction: column;
 }
+
+@media only screen and (min-width: 1024px) {
+  main {
+    display: flex;
+    width: 66.7%;
+    background-color: #f4f1ec;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 20em;
+    margin-right: 4em;
+    flex-direction: column;
+  }
+}

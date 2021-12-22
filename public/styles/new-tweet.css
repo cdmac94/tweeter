@@ -36,7 +36,7 @@ input, textarea{
   background-color: #f4f1ec;
   border: none;
   border-bottom: 2px  #545149 solid;
-  width: 90%;
+  width: 100%;
   font-family: 'Source Sans Pro', sans-serif;
   color: #545149;
   font-size: large;;
@@ -72,3 +72,9 @@ input, textarea{
   font-size: medium;
   font-family: 'Bungee', cursive;
 }
+
+@media only screen and (min-width: 1024px) {
+  .new-tweet{
+    width:66.7%;
+  }
+  }
